@@ -28,13 +28,11 @@
 @implementation NSObject (XQExchangeIMP)
 
 + (BOOL)exchangeClassMethodWithOriginSEL:(SEL)originSEL otherSEL:(SEL)otherSEL {
-    [self exchangeMethodWithIsClass:YES originSEL:originSEL otherSEL:otherSEL];
-    return YES;
+    return [self exchangeMethodWithIsClass:YES originSEL:originSEL otherSEL:otherSEL];
 }
 
 + (BOOL)exchangeInstanceMethodWithOriginSEL:(SEL)originSEL otherSEL:(SEL)otherSEL {
-    [self exchangeMethodWithIsClass:NO originSEL:originSEL otherSEL:otherSEL];
-    return YES;
+    return [self exchangeMethodWithIsClass:NO originSEL:originSEL otherSEL:otherSEL];
 }
 
 + (BOOL)exchangeMethodWithIsClass:(BOOL)isClass originSEL:(SEL)originSEL otherSEL:(SEL)otherSEL {
@@ -49,10 +47,12 @@
     otherMethod = otherIsClass ? class_getClassMethod(otherClass, otherSEL) : class_getInstanceMethod(otherClass, otherSEL);
     
     if (!originMethod) {
+//        NSLog(@"不存在 originMethod");
         return NO;
     }
     
     if (!otherMethod) {
+//        NSLog(@"不存在 otherMethod");
         return NO;
     }
     

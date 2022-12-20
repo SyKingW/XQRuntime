@@ -8,6 +8,37 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ 用 runtime hook 方法
+ 
+ @note Swift 使用的话，要在 func 前面加上 @objc dynamic
+ 
+ @note 示例
+ 
+ ```swift
+ class Person: NSObject {
+     @objc dynamic class func eat() {
+         print("class \(#function)")
+     }
+ }
+ 
+ extension Person {
+     @objc dynamic class func hookEat() {
+         print("hook class \(#function)")
+     }
+ }
+ 
+ // 交换两个方法
+ Person.exchangeClassMethod(withOriginSEL: #selector(Person.eat), otherSEL: #selector(Person.hookEat))
+ 
+ // 这时候调用 eat 就会走 hookEat
+ // 调用 hookEat 就走 eat
+ Person.eat()
+ Person.hookEat()
+ 
+ ```
+ 
+ */
 @interface NSObject (XQExchangeIMP)
 
 /** 调用类(调用该方法的类), 交换类方法
